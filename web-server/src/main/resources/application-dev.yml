@@ -1,0 +1,15 @@
+server:
+  port: 1996
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://106.12.139.244:3306/website-kong?autoReconnect=true&useSSL=false&characterEncoding=UTF-8&useUnicode=true&zeroDateTimeBehavior=convertToNull
+    username: root
+    password: "@JustKong."
+  redis:
+    host: 106.12.139.244
+    port: 6379
+    password: "@JustKong."
+mybatis:
+  mapper-locations:
+    - classpath:mappers/*.xml
