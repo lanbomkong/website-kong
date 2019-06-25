@@ -11,6 +11,6 @@ public class AuthFilter implements Filter
 
     @Override
     public void execute(HttpServletRequest request) {
-
+        System.out.println("登录验证");
     }
 }
