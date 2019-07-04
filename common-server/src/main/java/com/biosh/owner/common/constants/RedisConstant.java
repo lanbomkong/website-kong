@@ -7,6 +7,6 @@ package com.biosh.owner.common.constants;
 public class RedisConstant {
 
     public final static String ACCOUNT_LOGIN_TOKEN = "account:login:token:%s";
-    public final static String ACCOUNT_LOGIN_USERID = ("account:login:userid:%s");
+    public final static String ACCOUNT_LOGIN_USERID = "account:login:userid:%s";
 
 }
