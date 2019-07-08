@@ -19,3 +19,8 @@ spring:
 mybatis:
   mapper-locations:
     - classpath:mappers/*.xml
+rabbitmq:
+  exchange:
+    login: login-exchange
+  queue:
+    login: loginMessage

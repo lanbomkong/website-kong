@@ -10,12 +10,11 @@ import org.springframework.stereotype.Component;
  * @date 2019/7/1
  */
 @Component
-@RabbitListener(queues = "loginMessage")
-public class LoginConsumer extends MessageConsumer {
+public class LoginQueueConsumer extends MessageConsumer {
 
-    Logger logger = LoggerFactory.getLogger(LoginConsumer.class);
+    Logger logger = LoggerFactory.getLogger(LoginQueueConsumer.class);
 
-    @Override
+    @RabbitListener(queues = "loginMessage")
     void delBody(String message) {
         logger.info("成功消费消息：" + message);
     }

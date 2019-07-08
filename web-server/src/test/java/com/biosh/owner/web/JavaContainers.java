@@ -16,7 +16,7 @@ public class JavaContainers {
    *  list是列表，set是集合，map是键值映射，
    *  其中list有arraylist和linkedList，前者实现方式是数组，后者是链表
    *  set有hashset和treeSet,都是基于map实现的
-   *  map有hashmap和hashTable，后者是前者的安全版本，底层是数组+链表，当发生hash碰撞的时候，具有相同hash值得元素存在一条链表上	
+   *  map有hashmap和hashTable，后者是前者的安全版本，底层是数组+链表，当发生hash碰撞的时候，具有相同hash值得元素存在一条链表上
    */
 
 

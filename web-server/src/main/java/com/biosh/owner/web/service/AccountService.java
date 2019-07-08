@@ -42,9 +42,9 @@ public class AccountService {
                 redisUtil.del(String.format(RedisConstant.ACCOUNT_LOGIN_USERID, token));
             }
 
-            //生成token
+            // 生成token
             token = StringUtil.generateToken();
-            //将token添加至缓存
+            // 将token添加至缓存
             redisUtil.set(String.format(RedisConstant.ACCOUNT_LOGIN_TOKEN, id), token);
             redisUtil.set(String.format(RedisConstant.ACCOUNT_LOGIN_USERID, token), id);
             return token;
