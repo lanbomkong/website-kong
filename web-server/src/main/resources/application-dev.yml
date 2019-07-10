@@ -16,6 +16,14 @@ spring:
     username: admin
     password: admin
     port: 5672
+    listener:
+      simple:
+        concurrency: 5
+        max-concurrency: 10
+        prefetch: 1
+        acknowledge-mode: MANUAL
+    publisher-confirms: true
+    publisher-returns: true
 mybatis:
   mapper-locations:
     - classpath:mappers/*.xml
@@ -23,4 +31,4 @@ rabbitmq:
   exchange:
     login: login-exchange
   queue:
-    login: loginMessage
+    login: login-queue

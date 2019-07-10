@@ -33,7 +33,6 @@ public class AccountController {
 
     @PostMapping("/login")
     public String userLogin (@Valid @RequestBody UserForm userForm) {
-        producer.send(queueName,"登录用户："+userForm.getUsername());
         producer.sendPub(exchangeName, userForm.getUsername());
         return accountService.userLogin(userForm);
     }
