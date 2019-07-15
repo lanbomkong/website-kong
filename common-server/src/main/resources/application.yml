@@ -1,2 +1,0 @@
-rabbitmq.exchange.login=login-exchange
-rabbitmq.queue.login=loginMessage

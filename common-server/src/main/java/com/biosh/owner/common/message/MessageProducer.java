@@ -1,5 +1,8 @@
 package com.biosh.owner.common.message;
 
+import com.biosh.owner.db.mapper.BizMessageMapper;
+import com.biosh.owner.db.model.BizMessage;
+import java.util.Date;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -18,13 +21,21 @@ public class MessageProducer {
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
-    private ConfirmCallback confirmCallback = new RabbitTemplate.ConfirmCallback(){
+    @Autowired
+    private BizMessageMapper messageMapper;
+
+    private ConfirmCallback confirmCallback = new RabbitTemplate.ConfirmCallback() {
 
         @Override
         public void confirm(CorrelationData correlationData, boolean ack, String cause) {
             if (ack) {
+                BizMessage message = new BizMessage();
+                message.setId(Integer.valueOf(correlationData.getId()));
+                message.setStatus((byte)1);
+                message.setUpdated(new Date());
+                messageMapper.updateByPrimaryKeySelective(message);
                 log.info("consume success?");
-            }else {
+            } else {
                 log.error(cause);
             }
         }
@@ -35,10 +46,10 @@ public class MessageProducer {
     }
 
 
-
-    public void sendPub(String exchange, Object message) {
+    public void sendPub(String exchange, BizMessage message) {
         rabbitTemplate.setConfirmCallback(confirmCallback);
-        rabbitTemplate.convertAndSend(exchange, "", message);
+        CorrelationData correlationData = new CorrelationData(message.getId().toString());
+        rabbitTemplate.convertAndSend("login", "", message, correlationData);
     }
 
 }

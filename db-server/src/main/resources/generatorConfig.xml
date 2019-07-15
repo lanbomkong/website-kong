@@ -35,7 +35,7 @@
         </javaClientGenerator>
 
 
-        <table tableName="biz_user" domainObjectName="BizUser"
+        <table tableName="biz_message" domainObjectName="BizMessage"
                enableCountByExample="false"
                enableUpdateByExample="false"
                enableDeleteByExample="false"

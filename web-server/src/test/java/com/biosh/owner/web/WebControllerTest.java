@@ -36,8 +36,8 @@ public class WebControllerTest {
 ////            System.out.println(stringBuilder1.toString());
 ////            inputStream.close();
             BufferedReader reader = new BufferedReader(new FileReader(path.toString()));
-            String str ;
-            while ((str = reader.readLine())!=null) {
+            String str;
+            while ((str = reader.readLine()) != null) {
                 System.out.println(str);
             }
             reader.close();
@@ -56,6 +56,10 @@ public class WebControllerTest {
     @Test
     public void IoTest() {
 
+        double a = Math.ceil(Math.random() * 6);
+        double b = Math.ceil(Math.random() * 6);
+        double c = Math.ceil(Math.random() * 6);
+        System.out.println(a+b+c);
     }
 
 }

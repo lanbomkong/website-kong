@@ -8,20 +8,31 @@ public class Condition {
 
     private String key;
 
-    private String operate;
+    private String operate = "=";
 
-    private String value;
+    private Object value;
 
-    public Condition(String key, String value) {
+    /**
+     * 是否去符号化
+     */
+    private String remSymbol = "false";
+
+    public Condition(String key, Object value) {
         this.key = key;
-        this.operate = "=";
         this.value = value;
     }
 
-    public Condition(String key, String operate, String value) {
+    public Condition(String key, String operate, Object value) {
         this.key = key;
         this.operate = operate;
         this.value = value;
+    }
+
+    public Condition(String key, String operate, Object value, String remSymbol) {
+        this.key = key;
+        this.operate = operate;
+        this.value = value;
+        this.remSymbol = remSymbol;
     }
 
     public void setKey(String key) {
@@ -32,7 +43,7 @@ public class Condition {
         this.operate = operate;
     }
 
-    public void setValue(String value) {
+    public void setValue(Object value) {
         this.value = value;
     }
 
@@ -44,7 +55,15 @@ public class Condition {
         return operate;
     }
 
-    public String getValue() {
+    public Object getValue() {
         return value;
+    }
+
+    public void setRemSymbol(String remSymbol) {
+        this.remSymbol = remSymbol;
+    }
+
+    public String getRemSymbol() {
+        return remSymbol;
     }
 }

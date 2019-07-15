@@ -1,5 +1,6 @@
 package com.biosh.owner.common.message;
 
+import com.biosh.owner.db.model.BizMessage;
 import com.rabbitmq.client.Channel;
 import java.io.IOException;
 import java.util.Map;
@@ -10,6 +11,7 @@ import org.springframework.amqp.rabbit.annotation.QueueBinding;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.support.AmqpHeaders;
 import org.springframework.messaging.handler.annotation.Headers;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
 /**
@@ -24,9 +26,9 @@ public class LoginSubConsumer {
         value = @Queue(value = "login-queue"),
         exchange = @Exchange(name = "login-exchange", type = "fanout"))
     )
-    public void messageConsume(String message, Channel channel, @Headers Map<String, Object> headers)
+    public void messageConsumez(@Payload BizMessage message, Channel channel, @Headers Map<String, Object> headers)
         throws IOException {
-        log.info("queue0 consume message" + message);
+        log.info("queue0 consume message" + message.getContent());
         channel.basicAck((long) headers.get(AmqpHeaders.DELIVERY_TAG), false);
     }
 

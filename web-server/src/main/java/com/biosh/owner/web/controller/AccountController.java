@@ -1,8 +1,11 @@
 package com.biosh.owner.web.controller;
 
 import com.biosh.owner.common.message.MessageProducer;
+import com.biosh.owner.db.mapper.BizMessageMapper;
+import com.biosh.owner.db.model.BizMessage;
 import com.biosh.owner.web.dto.input.UserForm;
 import com.biosh.owner.web.service.AccountService;
+import java.util.Date;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,6 +28,8 @@ public class AccountController {
     @Autowired
     private MessageProducer producer;
 
+    @Autowired
+    private BizMessageMapper messageMapper;
     @Value("${rabbitmq.exchange.login}")
     private String exchangeName;
 
@@ -33,7 +38,13 @@ public class AccountController {
 
     @PostMapping("/login")
     public String userLogin (@Valid @RequestBody UserForm userForm) {
-        producer.sendPub(exchangeName, userForm.getUsername());
+        BizMessage message = new BizMessage();
+        message.setContent(String.format("username：%s, password：%s", userForm.getUsername(), userForm.getPassword()));
+        message.setCreated(new Date());
+
+        messageMapper.insertSelective(message);
+
+        producer.sendPub("login", message);
         return accountService.userLogin(userForm);
     }
 

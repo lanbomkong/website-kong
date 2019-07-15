@@ -13,8 +13,8 @@ spring:
   rabbitmq:
     dynamic: true
     host: 106.12.139.244
-    username: admin
-    password: admin
+    username: guest
+    password: guest
     port: 5672
     listener:
       simple:
@@ -27,6 +27,9 @@ spring:
 mybatis:
   mapper-locations:
     - classpath:mappers/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
 rabbitmq:
   exchange:
     login: login-exchange
