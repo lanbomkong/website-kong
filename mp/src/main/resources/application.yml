@@ -1,9 +1,13 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://106.12.139.244:3306/website-kong
+    url: jdbc:mysql://106.12.139.244:3306/website-kong?useSSL=false&serverTimeZone=GMT%2B8
     username: root
     password: "@JustKong."
+  redis:
+    host: 106.12.139.244
+    password: "@JustKong."
+    port: 6379
 
 mybatis-plus:
   global-config:

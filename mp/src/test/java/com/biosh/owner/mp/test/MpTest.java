@@ -2,9 +2,9 @@ package com.biosh.owner.mp.test;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.biosh.owner.mp.MpStarter;
+import com.biosh.owner.mp.dao.BizMessageMapper;
 import com.biosh.owner.mp.dao.BizUserMapper;
 import com.biosh.owner.mp.model.BizMessage;
-import com.biosh.owner.mp.dao.BizMessageMapper;
 import com.biosh.owner.mp.model.BizUser;
 import java.time.LocalDateTime;
 import java.util.Arrays;
