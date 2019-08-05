@@ -35,6 +35,8 @@
         <module>common-server</module>
 		<module>web-server</module>
         <module>mp</module>
+        <module>daily_log</module>
+        <module>spring-cloud</module>
     </modules>
 	<parent>
 		<groupId>org.springframework.boot</groupId>

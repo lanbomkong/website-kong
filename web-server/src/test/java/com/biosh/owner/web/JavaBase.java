@@ -8,6 +8,10 @@ import org.junit.Test;
  */
 public class JavaBase {
 
+    @Test
+    public void testJava () {
+    }
+
     /**
      *  1、JRE和JDK的区别
      */

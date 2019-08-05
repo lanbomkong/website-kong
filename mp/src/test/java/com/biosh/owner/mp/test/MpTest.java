@@ -32,6 +32,7 @@ public class MpTest {
 
     @Test
     public void insertMessage(){
+//        messageMapper.
         BizMessage message= new BizMessage();
         message.setContent("is a message");
         message.setCreated(LocalDateTime.now());
