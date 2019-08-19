@@ -7,6 +7,7 @@ import com.biosh.owner.mp.dao.BizUserMapper;
 import com.biosh.owner.mp.model.BizMessage;
 import com.biosh.owner.mp.model.BizUser;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -23,6 +24,22 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = MpStarter.class)
 public class MpTest {
+
+    public static void main(String[] args) {
+        List<Integer> firstList = new ArrayList<>();
+        firstList.add(12);
+        firstList.add(13);
+
+        List<Integer> secondList = new ArrayList<>();
+        secondList.add(14);
+        secondList.add(111);
+        firstList.addAll(firstList.size(),secondList);
+
+        for (int i = 0; i < firstList.size(); i++) {
+            System.out.println(firstList.get(i));
+        }
+    }
+
 
     @Autowired
     private BizUserMapper userMapper;

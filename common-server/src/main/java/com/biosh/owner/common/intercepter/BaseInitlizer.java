@@ -13,10 +13,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class BaseInitlizer implements WebMvcConfigurer {
 
     @Autowired
-    private SystemIntercepter intercepter;
+    private SystemInterceptor systemInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(this.intercepter).addPathPatterns("/**");
+        registry.addInterceptor(this.systemInterceptor).addPathPatterns("/**");
     }
 }

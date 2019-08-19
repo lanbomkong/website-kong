@@ -15,9 +15,9 @@ import org.springframework.web.servlet.ModelAndView;
  * @date 2019/6/20
  */
 @Component
-public class SystemIntercepter implements HandlerInterceptor {
+public class SystemInterceptor implements HandlerInterceptor {
 
-    Logger logger = LoggerFactory.getLogger(SystemIntercepter.class);
+    Logger logger = LoggerFactory.getLogger(SystemInterceptor.class);
 
     private Long startTime;
     private Long endTime;

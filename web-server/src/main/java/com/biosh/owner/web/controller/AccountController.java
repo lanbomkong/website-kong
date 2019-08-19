@@ -1,5 +1,7 @@
 package com.biosh.owner.web.controller;
 
+import com.biosh.owner.common.constants.ApplicationRetStubInfo;
+import com.biosh.owner.common.constants.RetStubDetailInfo;
 import com.biosh.owner.common.message.MessageProducer;
 import com.biosh.owner.db.mapper.BizMessageMapper;
 import com.biosh.owner.db.model.BizMessage;
@@ -53,7 +55,8 @@ public class AccountController {
     public Object aysncMethod() {
         accountService.asyncMethod();
         System.out.println("now time!!!");
-        return "this is cool!!!";
+//        return "this is cool!!!";
+        throw new ApplicationRetStubInfo(RetStubDetailInfo.NEED_LOGIN);
     }
 
 }

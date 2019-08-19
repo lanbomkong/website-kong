@@ -59,6 +59,7 @@ public class MpTest {
         list.add("name1");
         list.add("name2");
         list.add("name3");
+
         System.out.println(redisTemplate.opsForValue().multiGet(list));
 
     }

@@ -45,11 +45,10 @@ public class MessageProducer {
         rabbitTemplate.convertAndSend(queueName, message);
     }
 
-
     public void sendPub(String exchange, BizMessage message) {
         rabbitTemplate.setConfirmCallback(confirmCallback);
         CorrelationData correlationData = new CorrelationData(message.getId().toString());
-        rabbitTemplate.convertAndSend("login", "", message, correlationData);
+        rabbitTemplate.convertAndSend(exchange, "", message, correlationData);
     }
 
 }
