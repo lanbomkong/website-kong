@@ -1,10 +1,7 @@
 package com.biosh.owner.common.util;
 
 import com.alibaba.fastjson.JSONObject;
-import com.biosh.owner.common.constants.ApplicationRetStubInfo;
-import com.biosh.owner.common.constants.RetStubDetailInfo;
 import java.util.List;
-import org.springframework.util.Assert;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -53,23 +50,29 @@ public class AmapUtil {
     // 驾车路径规划
     private static final String DRIVING_URL = "https://restapi.amap.com/v3/direction/driving";
 
-
-    private static final String params = "?origin=%s&destination=%s&extensions=base&output=json&key=%s";
+    private static final String params = "?origin=%s&destination=%s&extensions=%s&output=%s&key=%s";
 
     private static String DEFAULT_OUTPUT = "json";
 
-    private static String DEFAULT_OEXTENSION = "base";
+    private static String DEFAULT_EXTENSION = "base";
 
+
+    /**
+     * 调用高德路径规划接口
+     *
+     * @Author justk
+     * @Date 9:42 2019/8/20
+     * @Param origin（起点，数据格式 lng , lat） destination (终点，数据格式 lng , lat) extensions (数据扩展， base：基础数据，
+     * all：所有数据) output (数据输出格式，json, xml) travelType (出行方式，０－步行, 1 - 骑行，2 - 公交， 3 - 驾车)
+     * @Return 高德返回的路径规划数据
+     */
     public static String directionForDriving(String origin, String destination, String extensions,
         String output, int travelType) {
-        checkOutput(output);
-        checkExtensions(extensions);
+
+        checkParams(output, extensions);
 
         String amapUrl = null;
         switch (travelType) {
-            case 0:
-                amapUrl = WALKING_URL;
-                break;
             case 1:
                 amapUrl = BICYCLING_URL;
                 break;
@@ -79,46 +82,31 @@ public class AmapUtil {
             case 3:
                 amapUrl = DRIVING_URL;
                 break;
+            default:
+                amapUrl = WALKING_URL;
         }
-        Assert.notNull(amapUrl, "unsupported method!");
 
         return restTemplate
-            .getForObject(amapUrl + String.format(params, origin, destination, amapKey),
-                String.class);
+            .getForObject(
+                amapUrl + String.format(params, origin, destination, DEFAULT_EXTENSION, DEFAULT_OUTPUT, amapKey), String.class);
     }
 
-    public static void checkOutput(String output) {
-        if (output.equals("json") || output.equals("xml")) {
+    public static void checkParams(String output, String extension) {
+
+        if ("xml".equals(output)) {
             DEFAULT_OUTPUT = output;
         }
-        throw new ApplicationRetStubInfo(RetStubDetailInfo.OUTPUT_NOT_SUPPORTED);
-    }
 
-    public static boolean checkExtensions(String extensions) {
-        if (extensions.equals("base") || extensions.equals("all")) {
-            return true;
+        if ("all".equals(extension)) {
+            DEFAULT_EXTENSION = extension;
         }
-        throw new ApplicationRetStubInfo(RetStubDetailInfo.EXTENSION_NOT_SUPPORTED);
-    }
 
-//    public static String directionForDriving(String origin, String destination, int travelType) {
-//        return directionForDriving(origin, destination, DEFAULT_OEXTENSION, DEFAULT_OUTPUT, travelType);
-//    }
-//
-//    public static String directionForDriving(String origin, String destination, String extension, int travelType) {
-//        checkExtensions(extension);
-//        return directionForDriving(origin, destination, extension, DEFAULT_OUTPUT, travelType);
-//    }
-//
-//    public static String directionForDriving(String origin, String destination, String output, int travelType) {
-//        checkOutput(output)
-//        return directionForDriving(origin, destination, DEFAULT_OEXTENSION, output, travelType);
-//    }
+    }
 
     public static void main(String[] args) {
 
         String directionStr = directionForDriving("116.481028,39.989643", "116.465302,40.004717",
-            null, null, TravelType.WALKING.getType());
+            "all", null, TravelType.WALKING.getType());
         JSONObject directionJson = JSONObject.parseObject(directionStr);
         List<String> paths = directionJson.getJSONObject("route").getJSONArray("paths")
             .toJavaList(String.class);
