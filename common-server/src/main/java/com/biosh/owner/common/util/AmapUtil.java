@@ -71,7 +71,7 @@ public class AmapUtil {
 
         checkParams(output, extensions);
 
-        String amapUrl = null;
+        String amapUrl;
         switch (travelType) {
             case 1:
                 amapUrl = BICYCLING_URL;

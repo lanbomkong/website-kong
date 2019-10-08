@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.biosh.owner.db.mapper.BizMessageMapper">
+    <resultMap id="BaseResultMap" type="com.biosh.owner.db.model.BizMessage">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="content" jdbcType="VARCHAR" property="content"/>
+        <result column="status" jdbcType="TINYINT" property="status"/>
+        <result column="retry_count" jdbcType="SMALLINT" property="retryCount"/>
+        <result column="retry_time" jdbcType="TIMESTAMP" property="retryTime"/>
+        <result column="created" jdbcType="TIMESTAMP" property="created"/>
+        <result column="updated" jdbcType="TIMESTAMP" property="updated"/>
+        <result column="deleted" jdbcType="TINYINT" property="deleted"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, content, status, retry_count, retry_time, created, updated, deleted
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from biz_message
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from biz_message
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.biosh.owner.db.model.BizMessage">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into biz_message (content, status, retry_count,
+        retry_time, created, updated,
+        deleted)
+        values (#{content,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT},
+        #{retryCount,jdbcType=SMALLINT},
+        #{retryTime,jdbcType=TIMESTAMP}, #{created,jdbcType=TIMESTAMP},
+        #{updated,jdbcType=TIMESTAMP},
+        #{deleted,jdbcType=TINYINT})
+    </insert>
+    <insert id="insertSelective" parameterType="com.biosh.owner.db.model.BizMessage">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into biz_message
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="content != null">
+                content,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="retryCount != null">
+                retry_count,
+            </if>
+            <if test="retryTime != null">
+                retry_time,
+            </if>
+            <if test="created != null">
+                created,
+            </if>
+            <if test="updated != null">
+                updated,
+            </if>
+            <if test="deleted != null">
+                deleted,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="content != null">
+                #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=TINYINT},
+            </if>
+            <if test="retryCount != null">
+                #{retryCount,jdbcType=SMALLINT},
+            </if>
+            <if test="retryTime != null">
+                #{retryTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="created != null">
+                #{created,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updated != null">
+                #{updated,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deleted != null">
+                #{deleted,jdbcType=TINYINT},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.biosh.owner.db.model.BizMessage">
+        update biz_message
+        <set>
+            <if test="content != null">
+                content = #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=TINYINT},
+            </if>
+            <if test="retryCount != null">
+                retry_count = #{retryCount,jdbcType=SMALLINT},
+            </if>
+            <if test="retryTime != null">
+                retry_time = #{retryTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="created != null">
+                created = #{created,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updated != null">
+                updated = #{updated,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deleted != null">
+                deleted = #{deleted,jdbcType=TINYINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.biosh.owner.db.model.BizMessage">
+        update biz_message
+        set content = #{content,jdbcType=VARCHAR},
+        status = #{status,jdbcType=TINYINT},
+        retry_count = #{retryCount,jdbcType=SMALLINT},
+        retry_time = #{retryTime,jdbcType=TIMESTAMP},
+        created = #{created,jdbcType=TIMESTAMP},
+        updated = #{updated,jdbcType=TIMESTAMP},
+        deleted = #{deleted,jdbcType=TINYINT}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="getRetryMessage" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"></include>
+        from
+        biz_message
+        where created &lt;= DATE_SUB(now(),INTERVAL 1 MINUTE)and retry_count &lt; 3
+    </select>
+
+    <select id="getByConditions" resultMap="BaseResultMap" parameterType="java.util.List">
+        select
+        <include refid="Base_Column_List"></include>
+        from
+        biz_message
+        <where>
+            <choose>
+                <when test="conditions != null and conditions.size() > 0">
+                    <foreach collection="conditions" separator="and" close="" open=" " item="condition" index="">
+                        <choose>
+                        <when test="condition.remSymbol != 'false' and condition.remSymbol != 'FALSE'">
+                                ${condition.key} ${condition.operate} ${condition.value}
+                            </when>
+                            <otherwise>
+                                ${condition.key} ${condition.operate} #{condition.value}
+                            </otherwise>
+                        </choose>
+                    </foreach>
+                </when>
+            </choose>
+        </where>
+    </select>
+</mapper>

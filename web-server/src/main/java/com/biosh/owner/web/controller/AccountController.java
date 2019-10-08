@@ -59,4 +59,5 @@ public class AccountController {
         throw new ApplicationRetStubInfo(RetStubDetailInfo.NEED_LOGIN);
     }
 
+
 }

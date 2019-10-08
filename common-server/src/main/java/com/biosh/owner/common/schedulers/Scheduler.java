@@ -27,7 +27,8 @@ public class Scheduler {
 
     public void checkMessage() {
         List<Condition> conditions = new ArrayList<>();
-        conditions.add(new Condition("created", "<=", "DATE_SUB(NOW(),INTERVAL 10 MINUTE)" , "true"));
+        conditions
+                .add(new Condition("created", "<=", "DATE_SUB(NOW(),INTERVAL 10 MINUTE)", "true"));
         conditions.add(new Condition("status", 0));
         conditions.add(new Condition("retry_count", "<", 3));
         List<BizMessage> retryMessage = messageMapper.getByConditions(conditions);
@@ -43,4 +44,5 @@ public class Scheduler {
         }
 
     }
+
 }
