@@ -1,10 +1,9 @@
 package com.biosh.owner.db.model;
 
 import com.biosh.owner.db.base.BaseModel;
-import java.io.Serializable;
 import java.util.Date;
 
-public class BizMessage extends BaseModel implements Serializable {
+public class BizMessage extends BaseModel {
     private Integer id;
 
     private String content;
