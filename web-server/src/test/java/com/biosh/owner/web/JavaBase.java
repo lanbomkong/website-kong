@@ -1,15 +1,85 @@
 package com.biosh.owner.web;
 
+import com.biosh.owner.web.service.CacheService;
+import org.apache.commons.lang3.time.DateUtils;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashSet;
 
 /**
  * @description java 基础
  * @date 2019/7/4
  */
+@SpringBootTest
+@RunWith(SpringRunner.class)
 public class JavaBase {
 
+    @Autowired
+    RedisTemplate redisTemplate;
+    @Autowired
+    CacheService cacheService;
+
     @Test
-    public void testJava () {
+    public void testJava() throws InterruptedException {
+//        redisTemplate.setValueSerializer(new JdkSerializationRedisSerializer());
+//        redisTemplate.setKeySerializer(new GenericJackson2JsonRedisSerializer());
+//        redisTemplate.setEnableTransactionSupport(true);
+        System.out.println(DateUtils.addMinutes(new Date(), 1));
+//        new ThreadLocal().start();
+//        new ThreadLocal().run();
+    }
+
+    class ThreadLocal extends Thread {
+
+        @Override
+        public void run() {
+            HashSet<String> orderCodes = new HashSet<>();
+            System.out.println("execute before");
+            int i = 0;
+            while (i++ < 10) {
+                String orderCode = getOrderCode((short) 1);
+                System.out.println("execute during...");
+                orderCodes.add(orderCode);
+            }
+            System.out.printf("orderSize: %d \n ---execute after%n", orderCodes.size());
+        }
+    }
+
+    public String getOrderCode(short rateTypeCode) {
+        // 2019/8/21 迭代三 增加的表字段更新
+        StringBuilder orderCode = new StringBuilder();
+        //客单编号:(1)第1位标识客单类型，实时不拼车为1，实时拼车为2，预约不拼车为3
+        // (2)第2-13位标识下单年月日时分，例如201907281235
+        // (3)第14-18位为该下单分钟内的客单下单顺序
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmm");
+
+        Long beforeIncrTimeMilliForCache = cacheService.getCurrentTimeMilliForCache();
+        long numPerMin = redisTemplate.opsForValue().increment("order:number_per_minute");
+        Long afterIncrTimeMilliForCache = cacheService.getCurrentTimeMilliForCache();
+        String beforeIncrDate = formatter.format(new Date(beforeIncrTimeMilliForCache));
+        String afterIncrTime = formatter.format(new Date(afterIncrTimeMilliForCache));
+        Long currentTimeMilliForCache = afterIncrTime.equals(beforeIncrDate) ? beforeIncrTimeMilliForCache : afterIncrTimeMilliForCache;
+
+
+        Date now = new Date(currentTimeMilliForCache);
+        Date dateForNextMinute = new Date(currentTimeMilliForCache + 60000 - currentTimeMilliForCache % 60000);
+        String codeDate = formatter.format(now);
+
+        orderCode.append(rateTypeCode);
+        orderCode.append(codeDate);
+
+        if (numPerMin == 1L) {
+            redisTemplate.expireAt("order:number_per_minute", dateForNextMinute);
+        }
+        orderCode.append(String.format("%05d", numPerMin));
+        return orderCode.toString();
     }
 
     /**
@@ -99,7 +169,7 @@ public class JavaBase {
         String str = "hello world !";
         char[] charArray = str.toCharArray();
         for (int i = 0, mid = charArray.length >> 1, j = charArray.length - 1; i < mid; i++, j--) {
-            set(charArray, i, set(charArray,j,charArray[i]));
+            set(charArray, i, set(charArray, j, charArray[i]));
         }
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < charArray.length; i++) {
