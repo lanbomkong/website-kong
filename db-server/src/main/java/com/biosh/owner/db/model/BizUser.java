@@ -20,10 +20,12 @@ public class BizUser extends BaseModel {
 
     private Byte deleted;
 
+    @Override
     public Integer getId() {
         return id;
     }
 
+    @Override
     public void setId(Integer id) {
         this.id = id;
     }
