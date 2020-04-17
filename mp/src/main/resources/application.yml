@@ -8,6 +8,17 @@ spring:
     host: 106.12.139.244
     password: "@JustKong."
     port: 6379
+  dubbo:
+    application:
+      name: mp-server
+    registry:
+      address: 106.12.139.244
+      port: 2181
+      protocol: zookeeper
+    protocol:
+      name: dubbo
+      port: 20080
+    scan: com.biosh.owner.mp.service
 
 mybatis-plus:
   global-config:

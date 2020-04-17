@@ -1,8 +1,7 @@
-package com.biosh.owner.common.message;
+package com.biosh.owner.web.message;
 
-import com.biosh.owner.db.model.BizMessage;
+import com.alibaba.fastjson.JSONObject;
 import com.rabbitmq.client.Channel;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.Exchange;
 import org.springframework.amqp.rabbit.annotation.Queue;
 import org.springframework.amqp.rabbit.annotation.QueueBinding;
@@ -16,22 +15,21 @@ import java.io.IOException;
 import java.util.Map;
 
 /**
- * @description
- * @date 2019/7/8
  * @author konglingbiao
+ * @description
+ * @date 2020/3/23
  */
-@Slf4j
 @Component
-public class LoginSubConsumer {
+public class TcpIpServer {
 
-    @RabbitListener(bindings = @QueueBinding(
-        value = @Queue(value = "login-queue"),
-        exchange = @Exchange(name = "login-exchange", type = "fanout"))
-    )
-    public void messageConsumer(@Payload BizMessage message, Channel channel, @Headers Map<String, Object> headers)
-        throws IOException {
-        log.info("queue0 consume message" + message.getContent());
+
+    @RabbitListener(bindings = @QueueBinding(value = @Queue("tcp/ip"), exchange = @Exchange(value = "tcp" +
+            "/ip", type = "fanout")))
+    public void messageListener(@Payload JSONObject message, Channel channel,
+                                @Headers Map<String, Object> headers) throws IOException {
+
+        Integer seq = message.getInteger("seq");
+        System.out.println(seq);
         channel.basicAck((long) headers.get(AmqpHeaders.DELIVERY_TAG), false);
     }
-
 }

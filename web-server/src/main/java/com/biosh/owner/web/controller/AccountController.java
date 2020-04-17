@@ -48,7 +48,7 @@ public class AccountController {
 
         messageMapper.insertSelective(message);
 
-        producer.sendPub("login", message);
+//        producer.sendPub("login", message);
         return accountService.userLogin(userForm);
     }
 

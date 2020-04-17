@@ -4,12 +4,13 @@ import com.biosh.owner.common.message.MessageProducer;
 import com.biosh.owner.db.mapper.BizMessageMapper;
 import com.biosh.owner.db.model.BizMessage;
 import com.biosh.owner.db.util.Condition;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @description
@@ -39,7 +40,7 @@ public class Scheduler {
                 message.setUpdated(new Date());
                 message.setRetryTime(new Date());
                 messageMapper.updateByPrimaryKeySelective(message);
-                messageProducer.sendPub("login-exchange", message);
+//                messageProducer.sendPub("login-exchange", message);
             });
         }
 

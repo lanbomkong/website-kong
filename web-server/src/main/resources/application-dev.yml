@@ -24,6 +24,16 @@ spring:
         acknowledge-mode: MANUAL
     publisher-confirms: true
     publisher-returns: true
+  dubbo:
+    application:
+      name: web-server
+    registry:
+      address: 106.12.139.244
+      port: 2191
+    protocol:
+      name: dubbo
+      port: 20080
+    scan: com.biosh.owner.web.controller
 mybatis:
   mapper-locations:
     - classpath:mappers/*.xml

@@ -7,14 +7,15 @@ import com.biosh.owner.db.mapper.BizUserMapper;
 import com.biosh.owner.db.model.BizUser;
 import com.biosh.owner.db.util.Condition;
 import com.biosh.owner.web.dto.input.UserForm;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @description
@@ -33,9 +34,8 @@ public class AccountService {
     @Async
     public void asyncMethod() {
         System.out.println("before sleep:"+ new Date().toString());
-        Thread thread = Thread.currentThread();
         try {
-            thread.sleep(2000);
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }finally {
