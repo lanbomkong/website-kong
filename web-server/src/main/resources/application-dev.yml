@@ -18,10 +18,10 @@ spring:
     port: 5672
     listener:
       simple:
-        concurrency: 5
+        concurrency: 1
         max-concurrency: 10
         prefetch: 1
-        acknowledge-mode: MANUAL
+        acknowledge-mode: auto
     publisher-confirms: true
     publisher-returns: true
   dubbo:

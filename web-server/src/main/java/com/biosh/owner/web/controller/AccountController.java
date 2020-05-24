@@ -19,6 +19,7 @@ import javax.validation.Valid;
 import java.util.Date;
 
 /**
+ * @author Admin
  * @description
  * @date 2019/6/20
  */
@@ -41,12 +42,13 @@ public class AccountController {
     private String queueName;
 
     @PostMapping("/login")
-    public String userLogin (@Valid @RequestBody UserForm userForm) {
+    public String userLogin(@Valid @RequestBody UserForm userForm) {
         BizMessage message = new BizMessage();
         message.setContent(String.format("username：%s, password：%s", userForm.getUsername(), userForm.getPassword()));
         message.setCreated(new Date());
 
-        messageMapper.insertSelective(message);
+//        String a = new String("12");
+
 
 //        producer.sendPub("login", message);
         return accountService.userLogin(userForm);

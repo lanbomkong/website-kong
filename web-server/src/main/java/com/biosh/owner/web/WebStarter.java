@@ -1,6 +1,5 @@
 package com.biosh.owner.web;
 
-import com.alibaba.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,6 +8,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
+ * @author Admin
  * @description
  * @date 2019/6/20
  */
@@ -17,7 +17,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @MapperScan(basePackages = "com.biosh.owner.db.mapper")
 @EnableScheduling
 @EnableAsync
-@EnableDubbo
+//@EnableDubbo
 public class WebStarter {
 
     public static void main(String[] args) {

@@ -1,8 +1,8 @@
 package com.biosh.owner.common.filter;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @description
@@ -21,4 +21,12 @@ public class FilterChain {
 
         }
     }
+
+
+    public static void main(String[] args) {
+        System.out.println("hello world!");
+
+
+    }
+
 }

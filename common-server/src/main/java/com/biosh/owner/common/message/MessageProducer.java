@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
+ * @author Admin
  * @description
  * @date 2019/7/1
  */
@@ -21,8 +22,6 @@ public class MessageProducer {
 
     @Autowired
     private BizMessageMapper messageMapper;
-
-
 
     public void send(String queueName, Object message) {
         rabbitTemplate.convertAndSend(queueName, message);

@@ -30,6 +30,7 @@ public class LoginSubConsumer {
     )
     public void messageConsumer(@Payload BizMessage message, Channel channel, @Headers Map<String, Object> headers)
         throws IOException {
+
         log.info("queue0 consume message" + message.getContent());
         channel.basicAck((long) headers.get(AmqpHeaders.DELIVERY_TAG), false);
     }
